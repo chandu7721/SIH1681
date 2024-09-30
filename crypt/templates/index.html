@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptography Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Video Background -->
+    <video autoplay muted loop id="background-video">
+        <source src="{{ url_for('static', filename='video.mp4') }}" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo"></li>
+            <li><a href="/">ANALYZE CIPHER</a></li>
+        </ul>
+    </nav>
+<br><br>
+    <div class="container">
+        <h2>Cryptography Algorithm Prediction</h2>
+        <form method="POST" action="/predict">
+            <h2>Enter Ciphertext:  <input type="text" id="ciphertext" name="ciphertext" required><button type="submit">Predict</button></h2>
+        </form>
+
+        {% if results %}
+        <div class="results-box">
+            <div class="row d-flex justify-content-center mt-100">
+                {% for algo, percent in results.items() %}
+                <div class="col">
+                    <div class="progress-container">
+                        <div class="circular" style="--percent: {{ percent }}%"></div>
+                        <div class="progress-value">{{ percent }}%</div>
+                    </div>
+                    <h4>{{ algo }}</h4>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Box for displaying the highest prediction result -->
+        <div class="prediction-result-box">
+            <h3>Predicted Algorithm: {{ predicted_algorithm }}</h3>
+            <p>{{ algorithm_description }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
